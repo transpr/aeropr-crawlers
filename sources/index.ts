@@ -25,6 +25,8 @@ import { iberia } from "./iberia.js";
 import { emirates } from "./emirates.js";
 import { sncfGnews } from "./sncf.js";
 import { zurichAirport } from "./zurich.js";
+import { schiphol } from "./schiphol.js";
+import { ntsb } from "./ntsb.js";
 
 export const SOURCES: Source[] = [
   // --- AIR (direct newsroom crawling) ---
@@ -43,10 +45,12 @@ export const SOURCES: Source[] = [
   cargolux,
   // --- AIR (direct RSS feeds) ---
   zurichAirport,
+  schiphol,
   // --- AIR (discovery via Google News RSS → original article) ---
   airFranceKlm,
   iberia,
   emirates,
+  ntsb,
   // --- RAIL (discovery via Google News RSS → original article) ---
   sncfGnews,
 ];
