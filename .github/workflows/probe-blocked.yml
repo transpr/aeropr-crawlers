@@ -1,0 +1,56 @@
+name: Probe blocked sources (Playwright)
+on:
+  workflow_dispatch: {}
+  push:
+    paths: ['.github/workflows/probe-blocked.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.49.0-jammy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run probe
+        run: |
+          node - <<'SCRIPT' > probe-out.txt 2>&1
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const ctx = await browser.newContext({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', locale: 'fr-FR' });
+            const page = await ctx.newPage();
+            const targets = [
+              ['air-france-klm', 'https://www.airfranceklm.com/en/news'],
+              ['iberia', 'https://grupo.iberia.es/newsroom'],
+              ['sncf', 'https://www.groupe-sncf.com/fr/groupe/presse/communiques'],
+            ];
+            for (const [name, url] of targets) {
+              try {
+                const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
+                await page.waitForTimeout(8000);
+                const links = await page.$$eval('a', as => as.map(a => a.href));
+                const press = links.filter(h => /pressrelease|newsroom\/|news|communiqu|presse|nota/i.test(h));
+                console.log(`PROBE ${name}: HTTP ${resp ? resp.status() : '?'} | ${links.length} liens | ${press.length} presse | url=${page.url()}`);
+                console.log(`PROBE ${name} exemples: ${[...new Set(press)].slice(0, 10).join(' | ')}`);
+                const title = await page.title();
+                console.log(`PROBE ${name} titre page: ${title}`);
+              } catch (e) {
+                console.log(`PROBE ${name}: ECHEC ${String(e).slice(0, 300)}`);
+              }
+            }
+            await browser.close();
+          })();
+          SCRIPT
+          cat probe-out.txt
+      - name: Commit result
+        run: |
+          git config user.name "probe-bot"
+          git config user.email "actions@github.com"
+          { echo "# Probe Playwright $(date -u)"; cat probe-out.txt; } > probe-result.md
+          git add probe-result.md
+          git commit -m "probe: result" || echo "rien a committer"
+          git push
