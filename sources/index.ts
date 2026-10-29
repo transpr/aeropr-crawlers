@@ -8,6 +8,7 @@ import { iata } from "./iata.js";
 import { airbus } from "./airbus.js";
 import { boeing } from "./boeing.js";
 import { ryanair } from "./ryanair.js";
+import { klm } from "./klm.js";
 import { sncf } from "./sncf.js";
 
 export const SOURCES: Source[] = [
@@ -18,6 +19,7 @@ export const SOURCES: Source[] = [
   airbus,
   boeing,
   ryanair,
+  klm,
   // --- RAIL ---
   sncf,
 ];
