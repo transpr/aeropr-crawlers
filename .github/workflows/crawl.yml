@@ -16,7 +16,7 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -26,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Install headless Chromium (anti-bot fallback)
+        run: npx playwright install --with-deps chromium
 
       - name: Run crawlers
         id: crawl
@@ -42,6 +45,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if grep -q "FAILED_SOURCES" crawl.log; then
+            gh label create "crawler-broken" --color B60205 2>/dev/null || true
             BODY=$(grep -A 20 "FAILED_SOURCES" crawl.log)
             gh issue create \
               --title "Crawler failure: source structure may have changed" \
@@ -52,6 +56,6 @@ jobs:
           ${BODY}
           \`\`\`
 
-          Check if the newsroom HTML changed and update the parseList function." \
+          Check if the newsroom HTML changed (or is blocking us) and update the source." \
               || true
           fi

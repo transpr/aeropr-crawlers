@@ -7,7 +7,10 @@ import type { Source } from "./types.js";
 import { upsertReleases, patchRelease, type ReleaseRow } from "./db.js";
 import { categorize } from "./categorize.js";
 import { translateToEnglish } from "./translate.js";
-import { fetchHtml, genericBodyExtraction, genericDateExtraction } from "./html.js";
+import {
+  fetchHtml, closeBrowser,
+  genericBodyExtraction, genericDateExtraction, genericTitleExtraction,
+} from "./html.js";
 
 async function crawlSource(source: Source): Promise<ReleaseRow[]> {
   const html = await fetchHtml(source.listUrl);
@@ -22,6 +25,7 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
       const body = source.parseDetail
         ? source.parseDetail(detailHtml, raw.url).body
         : genericBodyExtraction(detailHtml);
+      const title = genericTitleExtraction(detailHtml) ?? raw.title;
       const publishedAt =
         raw.publishedAt ||
         (source.parseDetail?.(detailHtml, raw.url).publishedAt) ||
@@ -34,13 +38,13 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
         org_group: source.orgGroup,
         alliance: source.alliance,
         org_name: source.orgName,
-        title: raw.title,
+        title,
         published_at: publishedAt,
         source_url: raw.url,
         language: source.language,
         summary: raw.summary ?? "",
-        body: body || raw.title,
-        categories: categorize(`${raw.title}\n${body}`),
+        body: body || title,
+        categories: categorize(`${title}\n${body}`),
       });
     } catch (e: any) {
       console.warn(`  ! detail failed ${raw.url}: ${e.message}`);
@@ -75,6 +79,7 @@ async function main() {
     }
   }
 
+  await closeBrowser();
   console.log(`\nDone. ${inserted} new release(s). ${failures.length} source failure(s).`);
   if (failures.length > 0) {
     console.error("FAILED_SOURCES:\n" + failures.join("\n"));
