@@ -4,7 +4,7 @@
 // <link> in Google News RSS is a news.google.com redirect that 302s to the
 // publisher page. If Google changes the redirect format, the source fails the
 // "structure changed" test and an issue is auto-created.
-import type { Source, RawRelease } from "../src/types.js";
+import type { Source, RawRelease, Sector } from "../src/types.js";
 import * as cheerio from "cheerio";
 
 export function gnewsSource(opts: {
@@ -21,6 +21,7 @@ export function gnewsSource(opts: {
     slug: opts.slug,
     sector: opts.sector,
     type: opts.type,
+    layer: "discovery",
     orgName: opts.orgName,
     orgGroup: opts.orgGroup,
     alliance: opts.alliance,
@@ -30,8 +31,6 @@ export function gnewsSource(opts: {
       const $$ = cheerio.load(xml, { xmlMode: true });
       const out: RawRelease[] = [];
       $$("item").each((_, el) => {
-        const title = $$($$("title", el).length ? $$("title", el)[0] : el).text().trim()
-          ?? "";
         const t = ($$("title", el).text() || "").trim();
         const link = ($$("link", el).text() || "").trim();
         const pubDate = ($$("pubDate", el).text() || "").trim();
@@ -42,5 +41,3 @@ export function gnewsSource(opts: {
     },
   };
 }
-
-import type { Sector } from "../src/types.js";

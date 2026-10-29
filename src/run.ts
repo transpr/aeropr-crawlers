@@ -1,6 +1,10 @@
 // Main crawler run: scan every source, fetch details, normalize, upsert.
 // Exit code 1 if a source fails completely (structure changed?) so the
 // GitHub Action can report it and auto-create an issue.
+//
+// Layers:
+//   --layer=direct     → scrape + RSS newsrooms (cron */5)
+//   --layer=discovery  → Google News RSS discovery (cron hourly, empty = OK)
 
 import { sourcesFor } from "../sources/index.js";
 import type { Source } from "./types.js";
@@ -16,6 +20,7 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
   const html = await fetchHtml(source.listUrl);
   const raws = source.parseList(html, source.listUrl);
   if (raws.length === 0) {
+    if (source.layer === "discovery") return []; // no news in 30d is normal
     throw new Error(`No releases parsed from ${source.listUrl} — structure may have changed.`);
   }
   const rows: ReleaseRow[] = [];
@@ -57,7 +62,10 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
 
 async function main() {
   const sector = process.argv.find((a) => a.startsWith("--sector="))?.split("=")[1];
-  const sources = sourcesFor(sector);
+  const layer = process.argv.find((a) => a.startsWith("--layer="))?.split("=")[1];
+  let sources = sourcesFor(sector);
+  if (layer === "direct") sources = sources.filter((s) => s.layer !== "discovery");
+  else if (layer === "discovery") sources = sources.filter((s) => s.layer === "discovery");
   let failures: string[] = [];
   let inserted = 0;
 

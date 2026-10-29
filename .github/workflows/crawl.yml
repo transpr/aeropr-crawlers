@@ -2,7 +2,8 @@ name: Crawl press releases
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *"   # direct layer: newsroom scrape + RSS
+    - cron: "7 * * * *"     # discovery layer: Google News RSS (hourly)
   workflow_dispatch: {}
 
 concurrency:
@@ -36,7 +37,10 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
-        run: npm run crawl 2>&1 | tee crawl.log
+        run: |
+          LAYER=${{ (github.event.schedule == '7 * * * *') && 'discovery' || 'direct' }}
+          echo "Running crawl layer: $LAYER"
+          npm run crawl -- --layer=$LAYER 2>&1 | tee crawl.log
         continue-on-error: true
 
       - name: Report source failures (auto issue)
@@ -52,9 +56,9 @@ jobs:
               --label "crawler-broken" \
               --body "The crawl run on $(date -u) reported failures:
 
-          \`\`\`
+          ```
           ${BODY}
-          \`\`\`
+          ```
 
           Check if the newsroom HTML changed (or is blocking us) and update the source." \
               || true
