@@ -1,13 +1,11 @@
 // Emirates Media Centre — emirates.com/media-centre/en/.
-// Release links are /media-centre/<slug> (language variants excluded).
-// Titles from the anchor text; original dates are not exposed in the listing HTML,
-// so publishedAt is empty (the app shows an estimated-date badge, same as KLM).
+// Release links are /media-centre/<slug>; category landing pages are excluded by name.
 import type { Source, RawRelease } from "../src/types.js";
 import { abs } from "../src/html.js";
 import * as cheerio from "cheerio";
 
 const RELEASE_URL = /media-centre\/[a-z0-9-]{10,}\/?$/;
-const EXCLUDE = /\/media-centre\/\/(fr|es|ar-ae|en-us|de|it|pt|zh|ja|ru)\b|\/[a-z]{2}-[a-z]{2}\//;
+const EXCLUDE = /\/media-centre\/(fr|es|ar-ae|en-us|de|it|pt|zh|ja|ru)\b|customer-experience|operations|our-business|our-people|connecting-tomorrow|safety|sponsorship|\/\?/;
 
 export const emirates: Source = {
   slug: "emirates",

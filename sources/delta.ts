@@ -7,7 +7,7 @@ import { abs } from "../src/html.js";
 import * as cheerio from "cheerio";
 
 const RELEASE_URL = /news\.delta\.com\/[a-z0-9-]{15,}\/?$/;
-const EXCLUDE = /chinese|japanese|korean|news-archive|\/news\/?$|subscribe|sitemap|rss|\/?$/;
+const EXCLUDE = /chinese|japanese|korean|news-archive|\/news\/|subscribe|sitemap|rss|press-kit|\/about/;
 
 export const delta: Source = {
   slug: "delta",
