@@ -24,6 +24,7 @@ import { airFranceKlm } from "./airfrance-klm.js";
 import { iberia } from "./iberia.js";
 import { emirates } from "./emirates.js";
 import { sncfGnews } from "./sncf.js";
+import { zurichAirport } from "./zurich.js";
 
 export const SOURCES: Source[] = [
   // --- AIR (direct newsroom crawling) ---
@@ -40,6 +41,8 @@ export const SOURCES: Source[] = [
   alaska,
   united,
   cargolux,
+  // --- AIR (direct RSS feeds) ---
+  zurichAirport,
   // --- AIR (discovery via Google News RSS → original article) ---
   airFranceKlm,
   iberia,
