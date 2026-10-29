@@ -22,13 +22,15 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
   for (const raw of raws.slice(0, 10)) {
     try {
       const detailHtml = await fetchHtml(raw.url);
-      const body = source.parseDetail
-        ? source.parseDetail(detailHtml, raw.url).body
-        : genericBodyExtraction(detailHtml);
-      const title = genericTitleExtraction(detailHtml) ?? raw.title;
+      const detail = source.parseDetail ? source.parseDetail(detailHtml, raw.url) : undefined;
+      const body = detail?.body || genericBodyExtraction(detailHtml);
+      // A parseDetail title (>= 10 chars) wins: some sites ship a wrong og:title
+      // (e.g. Cargolux returns "Media releases" on every release page).
+      const title = (detail?.title && detail.title.length >= 10 ? detail.title : undefined)
+        ?? genericTitleExtraction(detailHtml) ?? raw.title;
       const publishedAt =
         raw.publishedAt ||
-        (source.parseDetail?.(detailHtml, raw.url).publishedAt) ||
+        detail?.publishedAt ||
         genericDateExtraction(detailHtml) ||
         new Date().toISOString();
       rows.push({

@@ -40,5 +40,5 @@ export interface Source {
   language: string;
   listUrl: string;
   parseList(html: string, baseUrl: string): RawRelease[];
-  parseDetail?: (html: string, baseUrl: string) => { body: string; publishedAt?: string };
+  parseDetail?: (html: string, baseUrl: string) => { title?: string; body: string; publishedAt?: string };
 }
