@@ -5,6 +5,9 @@ import type { Source } from "../src/types.js";
 import { airFranceKlm } from "./air-france-klm.js";
 import { iberia } from "./iberia.js";
 import { iata } from "./iata.js";
+import { airbus } from "./airbus.js";
+import { boeing } from "./boeing.js";
+import { ryanair } from "./ryanair.js";
 import { sncf } from "./sncf.js";
 
 export const SOURCES: Source[] = [
@@ -12,6 +15,9 @@ export const SOURCES: Source[] = [
   airFranceKlm,
   iberia,
   iata,
+  airbus,
+  boeing,
+  ryanair,
   // --- RAIL ---
   sncf,
 ];
