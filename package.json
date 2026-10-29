@@ -1,0 +1,20 @@
+{
+  "name": "aeropr-crawlers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AeroPR / RailPR — press release scraping engine. Scans newsrooms every 5 minutes, normalizes and upserts into Supabase.",
+  "type": "module",
+  "scripts": {
+    "crawl": "tsx src/run.ts",
+    "crawl:air": "tsx src/run.ts --sector=air",
+    "crawl:rail": "tsx src/run.ts --sector=rail"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  }
+}
