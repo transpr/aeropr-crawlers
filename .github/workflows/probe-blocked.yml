@@ -15,9 +15,11 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.49.0-jammy
     steps:
       - uses: actions/checkout@v4
+      - name: Install playwright locally
+        run: npm init -y >/dev/null 2>&1; npm i playwright@1.49.0 --no-audit --no-fund --silent
       - name: Run probe
         run: |
-          cat > /tmp/probe.js <<'SCRIPT'
+          cat > probe.js <<'SCRIPT'
           const { chromium } = require('playwright');
           async function main() {
             const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
@@ -45,7 +47,7 @@ jobs:
           }
           main().then(() => console.log('PROBE TERMINE'), e => { console.log('PROBE GLOBAL ECHEC', String(e).slice(0, 500)); process.exit(0); });
           SCRIPT
-          NODE_PATH=$(npm root -g) node /tmp/probe.js > probe-out.txt 2>&1 || true
+          node probe.js > probe-out.txt 2>&1 || true
           cat probe-out.txt
       - name: Publish result as issue
         uses: actions/github-script@v7
