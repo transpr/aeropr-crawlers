@@ -13,7 +13,7 @@ import { categorize } from "./categorize.js";
 import { translateToEnglish } from "./translate.js";
 import {
   fetchHtml, closeBrowser,
-  genericBodyExtraction, genericDateExtraction, genericTitleExtraction,
+  genericBodyExtraction, genericDateExtraction, genericTitleExtraction, parseDateString,
 } from "./html.js";
 
 async function crawlSource(source: Source): Promise<ReleaseRow[]> {
@@ -33,11 +33,18 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
       // (e.g. Cargolux returns "Media releases" on every release page).
       const title = (detail?.title && detail.title.length >= 10 ? detail.title : undefined)
         ?? genericTitleExtraction(detailHtml) ?? raw.title;
-      const publishedAt =
-        raw.publishedAt ||
-        detail?.publishedAt ||
-        genericDateExtraction(detailHtml) ||
-        new Date().toISOString();
+      // Publication date: NEVER fabricate one. Priority: listing/RSS date,
+      // source-specific detail date, generic extraction (meta / JSON-LD / text).
+      let publishedAt: string | null = null;
+      for (const cand of [raw.publishedAt, detail?.publishedAt, genericDateExtraction(detailHtml)]) {
+        if (!cand) continue;
+        const d = parseDateString(cand);
+        if (d) { publishedAt = d.toISOString(); break; }
+      }
+      if (!publishedAt) {
+        console.warn(`  ? no publish date found, skipping ${raw.url} (better missing than wrongly dated)`);
+        continue;
+      }
       rows.push({
         sector: source.sector,
         source_slug: source.slug,
