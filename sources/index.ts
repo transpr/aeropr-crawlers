@@ -384,6 +384,98 @@ import { southernAir } from "./southern-air.js";
 import { 21Air } from "./21-air.js";
 import { kalitta } from "./kalitta.js";
 import { aasiaPacific } from "./aasia-pacific.js";
+import { airChina } from "./air-china.js";
+import { chinaEastern } from "./china-eastern.js";
+import { chinaSouthern } from "./china-southern.js";
+import { xiamenAir } from "./xiamen-air.js";
+import { juneyao } from "./juneyao.js";
+import { springAirlines } from "./spring-airlines.js";
+import { hainanAirlines } from "./hainan-airlines.js";
+import { chengduAir } from "./chengdu-air.js";
+import { tianjinAir } from "./tianjin-air.js";
+import { capitalAirlines } from "./capital-airlines.js";
+import { westAir } from "./west-air.js";
+import { 9Air } from "./9-air.js";
+import { loongAir } from "./loong-air.js";
+import { suparna } from "./suparna.js";
+import { hongKongAirlines } from "./hong-kong-airlines.js";
+import { hkExpress } from "./hk-express.js";
+import { airMacau } from "./air-macau.js";
+import { ram } from "./ram.js";
+import { egyptair } from "./egyptair.js";
+import { kenyaAirways } from "./kenya-airways.js";
+import { southAfrican } from "./south-african.js";
+import { airAlgerie } from "./air-algerie.js";
+import { tunisair } from "./tunisair.js";
+import { rwandair } from "./rwandair.js";
+import { airSenegal } from "./air-senegal.js";
+import { airCoteDivoire } from "./air-cote-divoire.js";
+import { airMauritius } from "./air-mauritius.js";
+import { flysafair } from "./flysafair.js";
+import { airlink } from "./airlink.js";
+import { asky } from "./asky.js";
+import { lamMozambique } from "./lam-mozambique.js";
+import { airTanzania } from "./air-tanzania.js";
+import { camairCo } from "./camair-co.js";
+import { airBurkina } from "./air-burkina.js";
+import { precisionAir } from "./precision-air.js";
+import { madagascarAirlines } from "./madagascar-airlines.js";
+import { airBotswana } from "./air-botswana.js";
+import { airNamibia } from "./air-namibia.js";
+import { airCongo } from "./air-congo.js";
+import { copa } from "./copa.js";
+import { skyAirline } from "./sky-airline.js";
+import { jetsmart } from "./jetsmart.js";
+import { aerolineasArgentinas } from "./aerolineas-argentinas.js";
+import { vivaAerobus } from "./viva-aerobus.js";
+import { arajet } from "./arajet.js";
+import { caribbeanAirlines } from "./caribbean-airlines.js";
+import { cubana } from "./cubana.js";
+import { satena } from "./satena.js";
+import { easyfly } from "./easyfly.js";
+import { wingo } from "./wingo.js";
+import { boliviana } from "./boliviana.js";
+import { amaszonas } from "./amaszonas.js";
+import { paranair } from "./paranair.js";
+import { lanPeru } from "./lan-peru.js";
+import { lanColombia } from "./lan-colombia.js";
+import { lanChile } from "./lan-chile.js";
+import { latamBrasil } from "./latam-brasil.js";
+import { scoot } from "./scoot.js";
+import { vietnamAirlines } from "./vietnam-airlines.js";
+import { vietjet } from "./vietjet.js";
+import { bambooAirways } from "./bamboo-airways.js";
+import { chinaAirlines } from "./china-airlines.js";
+import { evaAir } from "./eva-air.js";
+import { asiana } from "./asiana.js";
+import { spicejet } from "./spicejet.js";
+import { akasa } from "./akasa.js";
+import { airIndiaExpress } from "./air-india-express.js";
+import { cebuPacific } from "./cebu-pacific.js";
+import { philippineAirlines } from "./philippine-airlines.js";
+import { srilankan } from "./srilankan.js";
+import { maldivian } from "./maldivian.js";
+import { royalBrunei } from "./royal-brunei.js";
+import { biman } from "./biman.js";
+import { pia } from "./pia.js";
+import { nokAir } from "./nok-air.js";
+import { thaiLion } from "./thai-lion.js";
+import { airAsiaX } from "./air-asia-x.js";
+import { starlux } from "./starlux.js";
+import { zipair } from "./zipair.js";
+import { springJapan } from "./spring-japan.js";
+import { uzbekistanAirways } from "./uzbekistan-airways.js";
+import { virginAustralia } from "./virgin-australia.js";
+import { rex } from "./rex.js";
+import { fijiAirways } from "./fiji-airways.js";
+import { airPng } from "./air-png.js";
+import { airVanuatu } from "./air-vanuatu.js";
+import { solomonAirlines } from "./solomon-airlines.js";
+import { samoaAirways } from "./samoa-airways.js";
+import { nauruAirlines } from "./nauru-airlines.js";
+import { airRarotonga } from "./air-rarotonga.js";
+import { flair } from "./flair.js";
+import { canadaJetlines } from "./canada-jetlines.js";
 import { sncf } from "./sncf.js";
 
 export const SOURCES: Source[] = [
@@ -765,6 +857,98 @@ export const SOURCES: Source[] = [
   21Air,
   kalitta,
   aasiaPacific,
+  airChina,
+  chinaEastern,
+  chinaSouthern,
+  xiamenAir,
+  juneyao,
+  springAirlines,
+  hainanAirlines,
+  chengduAir,
+  tianjinAir,
+  capitalAirlines,
+  westAir,
+  9Air,
+  loongAir,
+  suparna,
+  hongKongAirlines,
+  hkExpress,
+  airMacau,
+  ram,
+  egyptair,
+  kenyaAirways,
+  southAfrican,
+  airAlgerie,
+  tunisair,
+  rwandair,
+  airSenegal,
+  airCoteDivoire,
+  airMauritius,
+  flysafair,
+  airlink,
+  asky,
+  lamMozambique,
+  airTanzania,
+  camairCo,
+  airBurkina,
+  precisionAir,
+  madagascarAirlines,
+  airBotswana,
+  airNamibia,
+  airCongo,
+  copa,
+  skyAirline,
+  jetsmart,
+  aerolineasArgentinas,
+  vivaAerobus,
+  arajet,
+  caribbeanAirlines,
+  cubana,
+  satena,
+  easyfly,
+  wingo,
+  boliviana,
+  amaszonas,
+  paranair,
+  lanPeru,
+  lanColombia,
+  lanChile,
+  latamBrasil,
+  scoot,
+  vietnamAirlines,
+  vietjet,
+  bambooAirways,
+  chinaAirlines,
+  evaAir,
+  asiana,
+  spicejet,
+  akasa,
+  airIndiaExpress,
+  cebuPacific,
+  philippineAirlines,
+  srilankan,
+  maldivian,
+  royalBrunei,
+  biman,
+  pia,
+  nokAir,
+  thaiLion,
+  airAsiaX,
+  starlux,
+  zipair,
+  springJapan,
+  uzbekistanAirways,
+  virginAustralia,
+  rex,
+  fijiAirways,
+  airPng,
+  airVanuatu,
+  solomonAirlines,
+  samoaAirways,
+  nauruAirlines,
+  airRarotonga,
+  flair,
+  canadaJetlines,
   sncf,
 ];
 
