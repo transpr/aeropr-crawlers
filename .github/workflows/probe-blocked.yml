@@ -1,0 +1,62 @@
+name: Probe unreachable newsrooms
+on:
+  workflow_dispatch: {}
+  push:
+    paths: ['.github/workflows/probe-blocked.yml']
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe
+        run: |
+          cat > probe.sh <<'SH'
+          #!/bin/bash
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+          p() {
+            code=$(curl -sL -o /tmp/o -w "%{http_code}" -A "$UA" --max-time 20 "$2" 2>/dev/null)
+            size=$(wc -c < /tmp/o 2>/dev/null || echo 0)
+            kind=$(head -c 100 /tmp/o 2>/dev/null | grep -oE '<rss|<feed|<?xml|<html|Access Denied|Just a moment|challenge' | head -1)
+            echo "PROBE $1: HTTP $code | $size o | $kind | $2"
+            if [ "$code" = "200" ]; then
+              grep -oE 'href="[^"]+"' /tmp/o | grep -ioE '\"(press|news|release)[^\"]*\"' | head -4 | sed 's/^/   lien: /'
+            fi
+          }
+          p turkish "https://press.turkishairlines.com/en-US/press-releases"
+          p turkish2 "https://www.turkishairlines.com/en-int/press-room"
+          p turkish3 "https://www.turkishairlines.com/en-int/press-room/press-releases"
+          p qatar "https://www.qatarairways.com/en/press-releases.html"
+          p qatar2 "https://www.qatarairways.com/en/homepage/press-release.html"
+          p etihad "https://www.etihad.com/en/newsroom"
+          p etihad2 "https://www.etihad.com/en/newsroom/press-releases"
+          p united "https://hub.united.com/feed"
+          p united2 "https://united.mediaroom.com/"
+          p jetblue "https://mediacentral.jetblue.com/press-releases"
+          p jetblue2 "https://mediacentral.jetblue.com/news-releases"
+          p norwegian "https://newsroom.norwegian.com/"
+          p norwegian2 "https://www.norwegian.com/en/ips/newsroom/"
+          p aa "https://news.aa.com/news/default.aspx"
+          p swa "https://www.swamedia.com/releases"
+          p tap "https://www.flytap.com/en-pt/tap-news-and-offers/news"
+          SH
+          chmod +x probe.sh
+          ./probe.sh > probe-out.txt 2>&1 || true
+          cat probe-out.txt
+      - name: Publish result as issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '';
+            try { body = fs.readFileSync('probe-out.txt', 'utf8'); } catch (e) { body = 'pas de sortie'; }
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Probe unreachable newsrooms',
+              body: '```\n' + body.slice(0, 6000) + '\n```',
+              labels: ['probe-result']
+            });
