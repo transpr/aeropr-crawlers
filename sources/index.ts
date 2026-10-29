@@ -17,6 +17,7 @@ import { airbaltic } from "./airbaltic.js";
 import { emirates } from "./emirates.js";
 import { pegasus } from "./pegasus.js";
 import { alaska } from "./alaska.js";
+import { united } from "./united.js";
 
 export const SOURCES: Source[] = [
   // --- AIR ---
@@ -34,6 +35,7 @@ export const SOURCES: Source[] = [
   emirates,
   pegasus,
   alaska,
+  united,
   // --- RAIL ---
   sncf,
 ];
