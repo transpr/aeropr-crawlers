@@ -7,10 +7,11 @@ import { abs } from "../src/html.js";
 import * as cheerio from "cheerio";
 
 // Landing/technical pages to exclude (not press releases).
+// Note: the real KLM slug is "products--services" (double dash).
 const EXCLUDE = new Set([
   "company", "image-bank", "economy", "about", "contact", "press",
   "dossier-climate", "dossier-fleet", "dossier-schiphol",
-  "rss-feed-en", "rss-feed-nl", "products-services", "services",
+  "rss-feed-en", "rss-feed-nl", "products--services", "services",
   "mobile", "app", "jobs", "careers", "privacy", "cookies", "sitemap",
 ]);
 
@@ -28,10 +29,10 @@ export const klm: Source = {
   language: "en",
   listUrl: "https://news.klm.com/",
   parseList(html, baseUrl): RawRelease[] {
-    const $ = cheerio.load(html);
+    const $$ = cheerio.load(html);
     const out: RawRelease[] = [];
-    $("a[href]").each((_, el) => {
-      const url = abs($(el).attr("href") ?? "", baseUrl);
+    $$("a[href]").each((_, el) => {
+      const url = abs($$(el).attr("href") ?? "", baseUrl);
       const m = url.match(/^https:\/\/news\.klm\.com\/([a-z0-9-]+)\/?$/);
       if (!m) return;
       const slug = m[1];
