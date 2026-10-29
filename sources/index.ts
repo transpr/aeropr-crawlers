@@ -10,6 +10,12 @@ import { boeing } from "./boeing.js";
 import { ryanair } from "./ryanair.js";
 import { klm } from "./klm.js";
 import { sncf } from "./sncf.js";
+import { lufthansaGroup } from "./lufthansa-group.js";
+import { delta } from "./delta.js";
+import { a4e } from "./a4e.js";
+import { airbaltic } from "./airbaltic.js";
+import { emirates } from "./emirates.js";
+import { pegasus } from "./pegasus.js";
 
 export const SOURCES: Source[] = [
   // --- AIR ---
@@ -20,6 +26,12 @@ export const SOURCES: Source[] = [
   boeing,
   ryanair,
   klm,
+  lufthansaGroup,
+  delta,
+  a4e,
+  airbaltic,
+  emirates,
+  pegasus,
   // --- RAIL ---
   sncf,
 ];
