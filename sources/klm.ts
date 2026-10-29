@@ -6,10 +6,12 @@ import type { Source, RawRelease } from "../src/types.js";
 import { abs } from "../src/html.js";
 import * as cheerio from "cheerio";
 
-// Category/landing pages to exclude (not press releases).
+// Landing/technical pages to exclude (not press releases).
 const EXCLUDE = new Set([
   "company", "image-bank", "economy", "about", "contact", "press",
   "dossier-climate", "dossier-fleet", "dossier-schiphol",
+  "rss-feed-en", "rss-feed-nl", "products-services", "services",
+  "mobile", "app", "jobs", "careers", "privacy", "cookies", "sitemap",
 ]);
 
 function humanize(slug: string): string {
@@ -33,7 +35,7 @@ export const klm: Source = {
       const m = url.match(/^https:\/\/news\.klm\.com\/([a-z0-9-]+)\/?$/);
       if (!m) return;
       const slug = m[1];
-      if (EXCLUDE.has(slug) || slug.length < 10) return;
+      if (EXCLUDE.has(slug) || slug.length < 15) return;
       if (out.some((o) => o.url === url)) return;
       out.push({ title: humanize(slug), url, publishedAt: "", summary: "" });
     });
