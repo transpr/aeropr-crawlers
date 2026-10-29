@@ -27,6 +27,12 @@ import { sncfGnews } from "./sncf.js";
 import { zurichAirport } from "./zurich.js";
 import { schiphol } from "./schiphol.js";
 import { ntsb } from "./ntsb.js";
+import { fraport } from "./fraport.js";
+import { faa } from "./faa.js";
+import { heathrow } from "./heathrow.js";
+import { adp } from "./adp.js";
+import { vinciAirports } from "./vinci-airports.js";
+import { munichAirport } from "./munich-airport.js";
 
 export const SOURCES: Source[] = [
   // --- AIR (direct newsroom crawling) ---
@@ -43,6 +49,8 @@ export const SOURCES: Source[] = [
   alaska,
   united,
   cargolux,
+  fraport,
+  faa,
   // --- AIR (direct RSS feeds) ---
   zurichAirport,
   schiphol,
@@ -51,6 +59,10 @@ export const SOURCES: Source[] = [
   iberia,
   emirates,
   ntsb,
+  heathrow,
+  adp,
+  vinciAirports,
+  munichAirport,
   // --- RAIL (discovery via Google News RSS → original article) ---
   sncfGnews,
 ];
