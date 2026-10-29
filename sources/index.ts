@@ -33,6 +33,11 @@ import { heathrow } from "./heathrow.js";
 import { adp } from "./adp.js";
 import { vinciAirports } from "./vinci-airports.js";
 import { munichAirport } from "./munich-airport.js";
+import { american } from "./american.js";
+import { westjet } from "./westjet.js";
+import { mtu } from "./mtu.js";
+import { shellAviation } from "./shell-aviation.js";
+import { lhTechnik } from "./lh-technik.js";
 
 export const SOURCES: Source[] = [
   // --- AIR (direct newsroom crawling) ---
@@ -51,9 +56,14 @@ export const SOURCES: Source[] = [
   cargolux,
   fraport,
   faa,
+  american,
+  westjet,
+  mtu,
+  shellAviation,
   // --- AIR (direct RSS feeds) ---
   zurichAirport,
   schiphol,
+  lhTechnik,
   // --- AIR (discovery via Google News RSS → original article) ---
   airFranceKlm,
   iberia,
