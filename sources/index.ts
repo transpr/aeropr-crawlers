@@ -38,6 +38,19 @@ import { westjet } from "./westjet.js";
 import { mtu } from "./mtu.js";
 import { shellAviation } from "./shell-aviation.js";
 import { lhTechnik } from "./lh-technik.js";
+import { airCanada } from "./air-canada.js";
+import { southwest } from "./southwest.js";
+import { jetblue } from "./jetblue.js";
+import { prattWhitney } from "./pratt-whitney.js";
+import { rollsRoyce } from "./rolls-royce.js";
+import { safran } from "./safran.js";
+import { totalenergies } from "./totalenergies.js";
+import { dassault } from "./dassault.js";
+import { atr } from "./atr.js";
+import { collins } from "./collins.js";
+import { dhl } from "./dhl.js";
+import { neste } from "./neste.js";
+import { skynrg } from "./skynrg.js";
 
 export const SOURCES: Source[] = [
   // --- AIR (direct newsroom crawling) ---
@@ -57,9 +70,23 @@ export const SOURCES: Source[] = [
   fraport,
   faa,
   american,
+  airCanada,
+  southwest,
   westjet,
   mtu,
   shellAviation,
+  // --- AIR (discovery via Google News RSS → original article) ---
+  jetblue,
+  prattWhitney,
+  rollsRoyce,
+  safran,
+  totalenergies,
+  dassault,
+  atr,
+  collins,
+  dhl,
+  neste,
+  skynrg,
   // --- AIR (direct RSS feeds) ---
   zurichAirport,
   schiphol,
