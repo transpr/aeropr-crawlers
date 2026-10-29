@@ -165,7 +165,6 @@ import { amelia } from "./amelia.js";
 import { aslFrance } from "./asl-france.js";
 import { tuiFly } from "./tui-fly.js";
 import { aeroflot } from "./aeroflot.js";
-import { sncf } from "./sncf.js";
 import { airAlbania } from "./air-albania.js";
 import { albawings } from "./albawings.js";
 import { aerologic } from "./aerologic.js";
@@ -354,6 +353,38 @@ import { wizzUk } from "./wizz-uk.js";
 import { dhlAirUk } from "./dhl-air-uk.js";
 import { baCityflyer } from "./ba-cityflyer.js";
 import { norwegianUk } from "./norwegian-uk.js";
+import { breeze } from "./breeze.js";
+import { hawaiian } from "./hawaiian.js";
+import { sunCountry } from "./sun-country.js";
+import { avelo } from "./avelo.js";
+import { envoy } from "./envoy.js";
+import { endeavor } from "./endeavor.js";
+import { republicAirways } from "./republic-airways.js";
+import { skywest } from "./skywest.js";
+import { psaAirlines } from "./psa-airlines.js";
+import { piedmont } from "./piedmont.js";
+import { commutair } from "./commutair.js";
+import { gojet } from "./gojet.js";
+import { horizonAir } from "./horizon-air.js";
+import { mesaAirlines } from "./mesa-airlines.js";
+import { capeAir } from "./cape-air.js";
+import { silverAirways } from "./silver-airways.js";
+import { airWisconsin } from "./air-wisconsin.js";
+import { ravnAlaska } from "./ravn-alaska.js";
+import { seaborne } from "./seaborne.js";
+import { atlasAir } from "./atlas-air.js";
+import { amazonAir } from "./amazon-air.js";
+import { fedex } from "./fedex.js";
+import { upsAirlines } from "./ups-airlines.js";
+import { abxAir } from "./abx-air.js";
+import { polarAirCargo } from "./polar-air-cargo.js";
+import { northernAirCargo } from "./northern-air-cargo.js";
+import { nationalAirlines } from "./national-airlines.js";
+import { southernAir } from "./southern-air.js";
+import { 21Air } from "./21-air.js";
+import { kalitta } from "./kalitta.js";
+import { aasiaPacific } from "./aasia-pacific.js";
+import { sncf } from "./sncf.js";
 
 export const SOURCES: Source[] = [
   iata,
@@ -515,7 +546,6 @@ export const SOURCES: Source[] = [
   aslFrance,
   tuiFly,
   aeroflot,
-  sncf,
   airAlbania,
   albawings,
   aerologic,
@@ -704,6 +734,38 @@ export const SOURCES: Source[] = [
   dhlAirUk,
   baCityflyer,
   norwegianUk,
+  breeze,
+  hawaiian,
+  sunCountry,
+  avelo,
+  envoy,
+  endeavor,
+  republicAirways,
+  skywest,
+  psaAirlines,
+  piedmont,
+  commutair,
+  gojet,
+  horizonAir,
+  mesaAirlines,
+  capeAir,
+  silverAirways,
+  airWisconsin,
+  ravnAlaska,
+  seaborne,
+  atlasAir,
+  amazonAir,
+  fedex,
+  upsAirlines,
+  abxAir,
+  polarAirCargo,
+  northernAirCargo,
+  nationalAirlines,
+  southernAir,
+  21Air,
+  kalitta,
+  aasiaPacific,
+  sncf,
 ];
 
 export function sourcesFor(sector?: string): Source[] {
