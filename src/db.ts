@@ -55,3 +55,12 @@ export async function patchRelease(id: string, patch: Record<string, unknown>): 
     body: JSON.stringify(patch),
   });
 }
+
+/** Hard-delete releases matching a PostgREST filter (e.g. "source_slug=eq.airbaltic"). */
+export async function deleteReleases(where: string): Promise<number> {
+  const rows = await supabase(`press_releases?${where}`, {
+    method: "DELETE",
+    headers: { Prefer: "return=representation" },
+  });
+  return Array.isArray(rows) ? rows.length : 0;
+}

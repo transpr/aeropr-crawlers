@@ -16,6 +16,10 @@ import {
   genericBodyExtraction, genericDateExtraction, genericTitleExtraction, parseDateString,
 } from "./html.js";
 
+// Titles that mean "the extractor read the newsroom shell", not a release
+// (JS-heavy sites where og:title is the page chrome, e.g. "Newsroom").
+const GENERIC_TITLE_RE = /^(newsroom|news|media|press|press releases|latest|home|update|announcements?)\b/i;
+
 async function crawlSource(source: Source): Promise<ReleaseRow[]> {
   const html = await fetchHtml(source.listUrl);
   const raws = source.parseList(html, source.listUrl);
@@ -28,11 +32,19 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
     try {
       const detailHtml = await fetchHtml(raw.url);
       const detail = source.parseDetail ? source.parseDetail(detailHtml, raw.url) : undefined;
-      const body = detail?.body || genericBodyExtraction(detailHtml);
+      const body = (detail?.body || genericBodyExtraction(detailHtml) || raw.summary || "").trim();
+      if (body.length < 120 && (raw.summary || "").trim().length < 120) {
+        console.warn(`  ? body extraction unusable, skipping ${raw.url} (better missing than an empty page)`);
+        continue;
+      }
       // A parseDetail title (>= 10 chars) wins: some sites ship a wrong og:title
       // (e.g. Cargolux returns "Media releases" on every release page).
+      // A GENERIC og:title ("Newsroom", "Press releases"…) means the detail page
+      // is a JS shell — trust the listing/RSS title instead.
+      const genericTitle = genericTitleExtraction(detailHtml);
       const title = (detail?.title && detail.title.length >= 10 ? detail.title : undefined)
-        ?? genericTitleExtraction(detailHtml) ?? raw.title;
+        ?? (genericTitle && !GENERIC_TITLE_RE.test(genericTitle) ? genericTitle : undefined)
+        ?? raw.title;
       // Publication date: NEVER fabricate one. Priority: listing/RSS date,
       // source-specific detail date, generic extraction (meta / JSON-LD / text).
       let publishedAt: string | null = null;
@@ -57,7 +69,7 @@ async function crawlSource(source: Source): Promise<ReleaseRow[]> {
         source_url: raw.url,
         language: source.language,
         summary: raw.summary ?? "",
-        body: body || title,
+        body,
         categories: categorize(`${title}\n${body}`),
       });
     } catch (e: any) {
